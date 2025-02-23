@@ -1,20 +1,142 @@
+/* Variable declarations. */
+:root {
+  --bg-el-shadow: 40dvh;
+  --bg-el-shadow-ani: 30dvh;
+  --bg-el-size: 0.01px;
+  --bg-el-x: 15dvw;
+  --bg-el-y: 5dvh;
+  --bg-el-color: #5730ff;
+}
+
+/* "Windows" */
+/* --bg-el-color: rgb(48, 72, 255); */
+
+@keyframes pulseRight {
+  0% {
+    box-shadow: var(--bg-el-x) var(--bg-el-y) var(--bg-el-shadow) var(--bg-el-shadow) var(--bg-el-color);
+  }
+
+  50% {
+    box-shadow: var(--bg-el-x) var(--bg-el-y) var(--bg-el-shadow-ani) var(--bg-el-shadow-ani) var(--bg-el-color);
+  }
+
+  100% {
+    box-shadow: var(--bg-el-x) var(--bg-el-y) var(--bg-el-shadow) var(--bg-el-shadow) var(--bg-el-color);
+  }
+}
+
+@keyframes pulseLeft {
+  0% {
+    box-shadow: calc(-1 * var(--bg-el-x)) calc(-1 * var(--bg-el-y)) var(--bg-el-shadow) var(--bg-el-shadow) var(--bg-el-color);
+  }
+
+  50% {
+    box-shadow: calc(-1 * var(--bg-el-x)) calc(-1 * var(--bg-el-y)) var(--bg-el-shadow-ani) var(--bg-el-shadow-ani) var(--bg-el-color);
+  }
+
+  100% {
+    box-shadow: calc(-1 * var(--bg-el-x)) calc(-1 * var(--bg-el-y)) var(--bg-el-shadow) var(--bg-el-shadow) var(--bg-el-color);
+  }
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 .header {
   text-align: center;
+  height: 17dvh;
+  z-index: 1;
+  font-size: 5dvw;
+  color: #ffffff;
 }
 
 .main {
+  height: 100dvh;
+  /* overflow-y: hidden; */
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
 }
 
-.inputField {
-  width: 50dvw;
-  height: 5dvh;
-  margin-top: 45dvh;
+/* .wrapper {
+  margin-top: 30dvh;
+  height: 100%;
+} */
+
+.inputForm {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: ease-in-out;
 }
 
-.inputFielf::after {
-  
+.inputField {
+  width: 50dvw;
+  height: 7dvh;
+  border: none;
+  border-radius: 50px;
+  font-size: x-large;
+  box-shadow: 1px 1px 100px 10px #000000a7;
+  padding: 10px;
+  text-align: center;
+  color: #333333;
+  transition: 0.5s ease-in-out;
+}
+
+.inputField:hover {
+  box-shadow: 1px 1px 100px 10px #000000;
+}
+
+.inputField:focus {
+  box-shadow: 1px 1px 100px 10px #000000;
+}
+
+.inputField::placeholder,
+.inputField[type="text"] {
+  font-family: 'JetBrainsMono';
+  color: #444444;
+  outline: none;
+}
+
+.inputForm::before {
+  content: "";
+  display: block;
+  position: absolute;
+  height: var(--bg-el-size);
+  width: var(--bg-el-size);
+  border-radius: 50%;
+  background-color: var(--bg-el-color);
+  z-index: -1;
+  box-shadow: var(--bg-el-x) var(--bg-el-y) var(--bg-el-shadow) var(--bg-el-shadow) var(--bg-el-color);
+  animation: pulseRight 10s ease-in-out infinite;
+}
+
+.inputForm::after {
+  content: "";
+  display: block;
+  position: absolute;
+  height: var(--bg-el-size);
+  width: var(--bg-el-size);
+  border-radius: 50%;
+  background-color: var(--bg-el-color);
+  z-index: -1;
+  box-shadow: calc(-1 * var(--bg-el-x)) calc(-1 * var(--bg-el-y)) var(--bg-el-shadow) var(--bg-el-shadow) var(--bg-el-color);
+  animation: pulseLeft 15s ease-in-out infinite;
+}
+
+.blink {
+  animation: blink 2s ease-in-out infinite;
 }
