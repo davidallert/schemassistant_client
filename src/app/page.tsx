@@ -16,8 +16,30 @@ export default function Page() {
   };
 
   const generateSchema = async () => {
-    const url = input;
-    console.log(url);
+    const url = 'http://localhost:3001/scrape';
+    const requestBody = {
+      url: input
+    }
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+
+      const json = await response.json();
+      console.log(json);
+
+    } catch(error: any) {
+      console.error(error.message);
+    }
   };
 
   return (
