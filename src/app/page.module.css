@@ -201,7 +201,7 @@
   right: 2dvw; /* Needs to be the same as the padding of .schemaDiv. */
   top: 2dvw; /* Needs to be the same as the padding of .schemaDiv. */
   font-size: xx-large;
-  transition: 0.2s ease-in-out;
+  transition: 1s ease-in-out;
   opacity: 0;
 }
 
