@@ -8,20 +8,24 @@ export default function Page() {
   const [input, setInput] = useState('');
   const [schema, setSchema] = useState('');
   const [shifted, setShifted] = useState(false);
+  const [displaySchema, setDisplaySchema] = useState(false);
+  const [gradientState, setGradientState] = useState(false);
 
   useEffect(() => {
-    const schemaDiv = document.getElementById("schemaDiv");
-    // const pre = document.getElementById("pre");
-    // const code = document.getElementById("code");
+    if (!schema) return;
+    setDisplaySchema(true);
+    const windowHeight = window.innerHeight;
+    const pageHeight = document.documentElement.scrollHeight;
+    if (pageHeight >= windowHeight * 2) {
+      setGradientState(true); // Only add the gradient effect if the schema is long enough.
+    }
+  }, [schema]); // Trigger when schema changes.
 
-    // if (!code || !pre || !schemaDiv) return;
-
-    if (!schemaDiv) return;
-
-    schemaDiv.style.transitionDuration = "3s";
-    schemaDiv.style.opacity = "1";
-
-  }, [schema]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setSchema(mockSchema); // Set mock schema after 5 seconds
+  //   }, 5000);
+  // }, []);
 
   const handleSubmit  = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,35 +37,32 @@ export default function Page() {
   };
 
   const generateSchema = async () => {
-    // const url = 'http://localhost:3001/scrape';
-    // const requestBody = {
-    //   url: input
-    // }
+    const url = 'http://localhost:3001/scrape';
+    const requestBody = {
+      url: input
+    }
 
     if (!shifted) shiftLayout();
-    // try {
-    //   const response = await fetch(url, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json"
-    //     },
-    //     body: JSON.stringify(requestBody),
-    //   });
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(requestBody),
+      });
 
-    //   if (!response.ok) {
-    //     throw new Error(`Response status: ${response.status}`);
-    //   }
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
 
-    //   const json = await response.text(); // TODO Should be .json(), probably?
-    //   console.log(json);
+      const json = await response.text(); // TODO Should be .json(), probably?
+      console.log(json);
+      setSchema(json);
 
-    // } catch(error: any) {
-    //   console.error(error.message);
-    // }
-
-    setTimeout(() => {
-      setSchema(mockSchema);
-    }, 5000);
+    } catch(error: any) {
+      console.error(error.message);
+    }
 
   };
 
@@ -70,7 +71,7 @@ export default function Page() {
 
     if (!wrapper) return;
 
-    wrapper.style.top = "-30dvh";
+    wrapper.style.top = "-25dvh";
     // Remove the transition-duration after the animation has completed.
     setTimeout(() => {
       wrapper.style.transitionDuration = "0s";
@@ -80,7 +81,7 @@ export default function Page() {
 
   return (
     <div className={styles.page}>
-      <main id="main" className={styles.main}>
+      <main id="main" className={`${styles.main} ${gradientState ? styles.gradient : ""}`}>
         <div className={styles.bg}>
           <div id="wrapper" className={styles.wrapper}>
             <h1 className={styles.header}>Schemassistant<span className={styles.blink}>_</span></h1>
@@ -93,7 +94,7 @@ export default function Page() {
             </form>
           </div>
         </div>
-            <div id="schemaDiv" className={styles.schemaDiv}>
+            <div id="schemaDiv" className={`${styles.schemaDiv} ${displaySchema ? styles.displaySchema : ""}`}>
               <pre id="pre" className={styles.pre}>
                 <code id="code" className={styles.code}>{schema}</code>
               </pre>
