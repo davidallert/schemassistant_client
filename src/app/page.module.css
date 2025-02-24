@@ -73,7 +73,7 @@
 }
 
 .gradient {
-  background: linear-gradient(180deg, rgba(10,10,10,1) 75%, rgba(87,48,255,1) 100%);
+  background: linear-gradient(180deg, rgba(10,10,10,1) 70%, rgba(87,48,255,1) 100%);
 }
 
 /* Initialize wrapper animation values. */
@@ -196,11 +196,33 @@
   opacity: 1;
 }
 
+.copy {
+  position: absolute;
+  right: 2dvw; /* Needs to be the same as the padding of .schemaDiv. */
+  top: 2dvw; /* Needs to be the same as the padding of .schemaDiv. */
+  font-size: xx-large;
+  transition: 0.2s ease-in-out;
+  opacity: 0;
+}
+
+.copy:hover {
+  color: #a897ff9d;
+  cursor: pointer;
+}
+
+.copy:active {
+  color: var(--foreground);
+}
+
+.displayCopy {
+  opacity: 1;
+}
+
 .spinner {
   opacity: 1;
   position: absolute;
   transition: opacity 1s ease-in-out;
-  left: 2dvw; /* Needs to be the same as the padding of the schemaDivContainer. */
+  left: 2dvw; /* Needs to be the same as the padding of .schemaDiv. */
 }
 
 .hideSpinner {

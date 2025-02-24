@@ -24,6 +24,8 @@ export default function Page() {
   const [displayCode, setDisplayCode] = useState(false);
   const [gradientState, setGradientState] = useState(false);
   const [schemaExists, setSchemaExists] = useState(false);
+  const [copyIconClicked, setCopyIconClicked] = useState(false);
+  const [copyIcon, setCopyIcon] = useState("fa-regular fa-copy");
 
   useEffect(() => {
     if (!shifted) return;
@@ -34,28 +36,18 @@ export default function Page() {
     if (!schema) return;
     setDisplayCode(true);
     setSchemaExists(true);
-    dynamicGradient();
+    dynamicGradient(); // Create/remove bottom gradient depending on current windowHeight.
   }, [schema]); // Trigger when the schema is fetched.
 
   const dynamicGradient = () => {
     const windowHeight = window.innerHeight;
     const pageHeight = document.documentElement.scrollHeight;
     if (pageHeight >= windowHeight * 2) {
-      setGradientState(true); // Only add the gradient effect if the schema is tall enough.
+      setGradientState(true); // Only add the gradient effect if the schema is "tall" enough.
     } else {
       setGradientState(false);
     }
   }
-
-  // Testing.
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setSchema(mockSchema); // Set mock schema after 5 seconds
-  //   }, 3000);
-  //   setTimeout(() => {
-  //     setSchema(mockSchema2);
-  //   }, 6000);
-  // }, []);
 
   const handleSubmit  = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -67,9 +59,10 @@ export default function Page() {
   };
 
   const generateSchema = async () => {
-    if (!shifted) shiftLayout();
+    if (!shifted) shiftLayout(); // Move the header div towards the top of the screen.
+
     if (schemaExists) {
-      setDisplayCode(false);
+      setDisplayCode(false); // Fade schema markup code if it exists.
     }
 
     const url = 'http://localhost:3001/scrape';
@@ -105,13 +98,29 @@ export default function Page() {
 
     if (!wrapper) return;
 
-    wrapper.style.top = "-25dvh";
-    // Remove the transition-duration after the animation has completed.
+    wrapper.style.top = "-25dvh"; // TODO use React state and CSS instead of setting style directly.
     setTimeout(() => {
+      // Remove the transition-duration after the animation has completed.
       wrapper.style.transitionDuration = "0s";
       setShifted(true);
     }, 1000);
   };
+
+  const copy = () => {
+    navigator.clipboard.writeText(schema);
+    setCopyIconClicked(true);
+    setTimeout(() => {
+      setCopyIconClicked(false);
+    }, 100);
+  };
+
+  useEffect(() => {
+    if (copyIcon === "fa-regular fa-copy") {
+      setCopyIcon("fa-solid fa-copy")
+    } else {
+      setCopyIcon("fa-regular fa-copy")
+    }
+  }, [copyIconClicked]);
 
   return (
     <div className={styles.page}>
@@ -129,6 +138,7 @@ export default function Page() {
           </div>
         </div>
             <div className={`${styles.schemaDiv} ${displaySchemaContainer ? styles.displaySchema : ""}`}>
+            <span className={`${styles.copy} ${displayCode ? styles.displayCopy : ""}`} onClick={copy}><i className={copyIcon}></i></span>
             <span className={`${styles.spinner}  ${displayCode ? styles.hideSpinner : ""}`}><i className="fa-solid fa-slash fa-spin"></i></span>
               <pre className={styles.pre}>
                 <code className={`${styles.code} ${displayCode ? styles.displayCode : ""}`}>{schema}</code>
