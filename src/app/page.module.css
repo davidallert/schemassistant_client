@@ -73,7 +73,7 @@
 }
 
 .gradient {
-  background: linear-gradient(164deg, rgba(10,10,10,1) 75%, rgba(87,48,255,1) 100%);
+  background: linear-gradient(180deg, rgba(10,10,10,1) 75%, rgba(87,48,255,1) 100%);
 }
 
 /* Initialize wrapper animation values. */
@@ -174,8 +174,8 @@
   width: 65dvw;
   box-shadow: 1px 1px 100px 10px #000000db;
   z-index: 2;
-  display: flex;
-  justify-content: center;
+  /* display: flex;
+  justify-content: center; */
 }
 
 .displaySchema {
@@ -202,10 +202,6 @@
   transition: opacity 1s ease-in-out;
   left: 2dvw; /* Needs to be the same as the padding of the schemaDivContainer. */
 }
-
-/* .displaySpinner {
-  opacity: 1;
-} */
 
 .hideSpinner {
   opacity: 0;

@@ -3,6 +3,18 @@
 import React, { FormEvent, useEffect, useState } from 'react';
 import styles from "./page.module.css";
 import mockSchema from './utils/mock.schema';
+import mockSchema2 from './utils/mock.schema2';
+
+/**
+ * Flow:
+ * Code is not visible to begin with.
+ * Code + spinner become visible when the schema changes.
+ * 
+ * Code should fade out when the user makes a new search.
+ * Spinner should fade in when the user makes a new search.
+ * 
+ * Spinner should then fade out as the new code fades in.
+ */
 
 export default function Page() {
   const [input, setInput] = useState('');
@@ -11,6 +23,7 @@ export default function Page() {
   const [displaySchemaContainer, setDisplaySchemaContainer] = useState(false);
   const [displayCode, setDisplayCode] = useState(false);
   const [gradientState, setGradientState] = useState(false);
+  const [schemaExists, setSchemaExists] = useState(false);
 
   useEffect(() => {
     if (!shifted) return;
@@ -20,17 +33,28 @@ export default function Page() {
   useEffect(() => {
     if (!schema) return;
     setDisplayCode(true);
-    const windowHeight = window.innerHeight;
-    const pageHeight = document.documentElement.scrollHeight;
-    if (pageHeight >= windowHeight * 1.75) {
-      setGradientState(true); // Only add the gradient effect if the schema is tall enough.
-    };
+    setSchemaExists(true);
+    dynamicGradient();
   }, [schema]); // Trigger when the schema is fetched.
 
+  const dynamicGradient = () => {
+    const windowHeight = window.innerHeight;
+    const pageHeight = document.documentElement.scrollHeight;
+    if (pageHeight >= windowHeight * 2) {
+      setGradientState(true); // Only add the gradient effect if the schema is tall enough.
+    } else {
+      setGradientState(false);
+    }
+  }
+
+  // Testing.
   // useEffect(() => {
   //   setTimeout(() => {
   //     setSchema(mockSchema); // Set mock schema after 5 seconds
-  //   }, 7000);
+  //   }, 3000);
+  //   setTimeout(() => {
+  //     setSchema(mockSchema2);
+  //   }, 6000);
   // }, []);
 
   const handleSubmit  = async (e: FormEvent<HTMLFormElement>) => {
@@ -44,6 +68,9 @@ export default function Page() {
 
   const generateSchema = async () => {
     if (!shifted) shiftLayout();
+    if (schemaExists) {
+      setDisplayCode(false);
+    }
 
     const url = 'http://localhost:3001/scrape';
     const requestBody = {
