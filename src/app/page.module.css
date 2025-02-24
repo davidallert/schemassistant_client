@@ -62,7 +62,7 @@
 }
 
 .main {
-  height: 100dvh;
+  min-height: 100dvh;
   /* overflow-y: hidden; */
   display: flex;
   align-items: center;
@@ -70,10 +70,30 @@
   flex-direction: column;
 }
 
-/* .wrapper {
-  margin-top: 30dvh;
-  height: 100%;
-} */
+.bg {
+  min-height: 100dvh;
+  /* overflow-y: hidden; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.schemaDiv {
+  position: relative;
+  top: -60dvh;
+  opacity: 0;
+  transition-duration: 3s;
+  padding: 1dvw;
+}
+
+/* Initialize wrapper animation values. */
+.wrapper {
+  position: relative;
+  top: 0;
+  transition-duration: 3s;
+  margin: 5dvh;
+}
 
 .inputForm {
   position: relative;
@@ -81,6 +101,7 @@
   justify-content: center;
   align-items: center;
   transition: ease-in-out;
+  margin-bottom: 5dvh;
 }
 
 .inputField {
@@ -93,13 +114,11 @@
   padding: 10px;
   text-align: center;
   color: #333333;
-  transition: 0.5s ease-in-out;
+  background-color: #ffffffed;
+  transition: box-shadow 0.5s ease-in-out;
 }
 
-.inputField:hover {
-  box-shadow: 1px 1px 100px 10px #000000;
-}
-
+.inputField:hover,
 .inputField:focus {
   box-shadow: 1px 1px 100px 10px #000000;
 }
@@ -111,7 +130,7 @@
   outline: none;
 }
 
-.inputForm::before {
+.bg::before {
   content: "";
   display: block;
   position: absolute;
@@ -124,7 +143,7 @@
   animation: pulseRight 10s ease-in-out infinite;
 }
 
-.inputForm::after {
+.bg::after {
   content: "";
   display: block;
   position: absolute;
@@ -140,3 +159,13 @@
 .blink {
   animation: blink 2s ease-in-out infinite;
 }
+
+.pre {
+  position: relative;
+  bottom: 0;
+}
+/* 
+.code {
+  position: relative;
+  bottom: 0;
+} */
