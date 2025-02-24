@@ -8,23 +8,29 @@ export default function Page() {
   const [input, setInput] = useState('');
   const [schema, setSchema] = useState('');
   const [shifted, setShifted] = useState(false);
-  const [displaySchema, setDisplaySchema] = useState(false);
+  const [displaySchemaContainer, setDisplaySchemaContainer] = useState(false);
+  const [displayCode, setDisplayCode] = useState(false);
   const [gradientState, setGradientState] = useState(false);
 
   useEffect(() => {
+    if (!shifted) return;
+    setDisplaySchemaContainer(true);
+  }, [shifted]); // Trigger when the layout is shifted i.e. when the user presses enter.
+
+  useEffect(() => {
     if (!schema) return;
-    setDisplaySchema(true);
+    setDisplayCode(true);
     const windowHeight = window.innerHeight;
     const pageHeight = document.documentElement.scrollHeight;
-    if (pageHeight >= windowHeight * 2) {
-      setGradientState(true); // Only add the gradient effect if the schema is long enough.
-    }
-  }, [schema]); // Trigger when schema changes.
+    if (pageHeight >= windowHeight * 1.75) {
+      setGradientState(true); // Only add the gradient effect if the schema is tall enough.
+    };
+  }, [schema]); // Trigger when the schema is fetched.
 
   // useEffect(() => {
   //   setTimeout(() => {
   //     setSchema(mockSchema); // Set mock schema after 5 seconds
-  //   }, 5000);
+  //   }, 7000);
   // }, []);
 
   const handleSubmit  = async (e: FormEvent<HTMLFormElement>) => {
@@ -37,12 +43,13 @@ export default function Page() {
   };
 
   const generateSchema = async () => {
+    if (!shifted) shiftLayout();
+
     const url = 'http://localhost:3001/scrape';
     const requestBody = {
       url: input
     }
 
-    if (!shifted) shiftLayout();
     try {
       const response = await fetch(url, {
         method: "POST",
@@ -76,7 +83,7 @@ export default function Page() {
     setTimeout(() => {
       wrapper.style.transitionDuration = "0s";
       setShifted(true);
-    }, 3000);
+    }, 1000);
   };
 
   return (
@@ -94,9 +101,10 @@ export default function Page() {
             </form>
           </div>
         </div>
-            <div id="schemaDiv" className={`${styles.schemaDiv} ${displaySchema ? styles.displaySchema : ""}`}>
-              <pre id="pre" className={styles.pre}>
-                <code id="code" className={styles.code}>{schema}</code>
+            <div className={`${styles.schemaDiv} ${displaySchemaContainer ? styles.displaySchema : ""}`}>
+            <span className={`${styles.spinner}  ${displayCode ? styles.hideSpinner : ""}`}><i className="fa-solid fa-slash fa-spin"></i></span>
+              <pre className={styles.pre}>
+                <code className={`${styles.code} ${displayCode ? styles.displayCode : ""}`}>{schema}</code>
               </pre>
             </div>
       </main>

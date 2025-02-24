@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from 'next/font/local';
 import "./globals.css";
+import Script from "next/script";
 
 const jetBrainsMono = localFont({
   src: '../../public/fonts/JetBrainsMono-Regular.woff2',
@@ -18,6 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Script src="https://kit.fontawesome.com/b46579c4fc.js" />
       <body className={`${jetBrainsMono.className}`}>
         {children}
       </body>

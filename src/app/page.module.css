@@ -62,52 +62,18 @@
 
 .main {
   min-height: 100dvh;
-  /* overflow-y: hidden; */
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 .gradient {
   background: linear-gradient(164deg, rgba(10,10,10,1) 75%, rgba(87,48,255,1) 100%);
-}
-
-.bg {
-  min-height: 100dvh;
-  /* overflow-y: hidden; */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  z-index: 1;
-}
-
-.schemaDiv {
-  position: relative;
-  top: -50dvh;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 3s ease-in-out;
-  padding: 2dvw;
-  background-color: #0000008c;
-  color: #ffffff;
-  border-radius: 20px;
-  width: 65dvw;
-  box-shadow: 1px 1px 100px 10px #000000db;
-  z-index: 2;
-}
-
-.code {
-  font-family: 'JetBrainsMono';
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
-  display: block;
-}
-
-.displaySchema {
-  visibility: visible;
-  opacity: 1;
 }
 
 /* Initialize wrapper animation values. */
@@ -154,6 +120,16 @@
   outline: none;
 }
 
+.bg {
+  min-height: 100dvh;
+  /* overflow-y: hidden; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 1;
+}
+
 .bg::before {
   content: "";
   display: block;
@@ -184,12 +160,53 @@
   animation: blink 2s ease-in-out infinite;
 }
 
-.pre {
+.schemaDiv {
+  min-height: 55dvh;
   position: relative;
-  bottom: 0;
+  top: -52dvh;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 3s ease-in-out;
+  padding: 2dvw;
+  background-color: #0000008c;
+  color: #ffffff;
+  border-radius: 20px;
+  width: 65dvw;
+  box-shadow: 1px 1px 100px 10px #000000db;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
 }
-/* 
+
+.displaySchema {
+  visibility: visible;
+  opacity: 1;
+}
+
 .code {
-  position: relative;
-  bottom: 0;
+  opacity: 0;
+  font-family: 'JetBrainsMono';
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  display: block;
+  transition: opacity 3s ease-in-out;
+}
+
+.displayCode {
+  opacity: 1;
+}
+
+.spinner {
+  opacity: 1;
+  position: absolute;
+  transition: opacity 1s ease-in-out;
+  left: 2dvw; /* Needs to be the same as the padding of the schemaDivContainer. */
+}
+
+/* .displaySpinner {
+  opacity: 1;
 } */
+
+.hideSpinner {
+  opacity: 0;
+}
