@@ -1,9 +1,9 @@
 # Demo
 
-## Front page
+## Initial layout
 ![](./public/images/readme1.png)
 
-## Loading
+## Generating schema
 ![](./public/images/readme2.png)
 
 ## Example output
