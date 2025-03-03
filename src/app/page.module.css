@@ -1,10 +1,10 @@
 /* Variable declarations. */
 :root {
   --bg-el-shadow: 40dvh;
-  --bg-el-shadow-ani: 30dvh;
+  --bg-el-shadow-ani: 35dvh;
   --bg-el-size: 0.01px;
-  --bg-el-x: 15dvw;
-  --bg-el-y: 5dvh;
+  --bg-el-x: 14dvw;
+  --bg-el-y: 6dvh;
   --bg-el-color: #5730ff;
 }
 
@@ -73,7 +73,7 @@
 }
 
 .gradient {
-  background: linear-gradient(180deg, rgba(10,10,10,1) 70%, rgba(87,48,255,1) 100%);
+  background: linear-gradient(180deg, #fff8f2 70%, rgba(87,48,255,1) 100%);
 }
 
 /* Initialize wrapper animation values. */
