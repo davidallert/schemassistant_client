@@ -14,7 +14,7 @@ Start the client by running:
 
 Then visit:
 
-`localhost:3000`
+`https://localhost:3000`
 
 ### Requesting Schema
 Send a request with a URL in the following format: `https://example.com`
